@@ -24,6 +24,6 @@ public class FlightAppControllerTest {
 
     @Test
     public void couponTest() {
-        assertThat(service.checkCoupon(27223, 1)).isBetween((long)0.1, (long)0.6);
+        assertThat(service.checkCoupon(27223, 27223)).isBetween((float)0.1, (float)1.0);
     }
 }
