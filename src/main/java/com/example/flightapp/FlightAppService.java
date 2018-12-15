@@ -30,17 +30,17 @@ public class FlightAppService {
             return true;
     }
 
-    public Long checkCoupon(int couponId, int price) {
+    public Float checkCoupon(int couponId, int price) {
         if (coupons.contains(couponId)) {
             switch( new Random().nextInt(2)) {
                 case 0:
-                    return (long) price * (long) 0.10;
+                    return (float) price * (float) 0.10;
                 case 1:
-                    return (long) price * (long) 0.50;
+                    return (float) price * (float) 0.50;
                 case 2:
-                    return (long) price * (long) 0.60;
+                    return (float) price * (float) 0.60;
             }
         }
-        return null;
+        return (float)-1.0;
     }
 }

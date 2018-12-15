@@ -15,43 +15,32 @@ public class FlightAppController {
     @Autowired
     FlightAppService flightAppService;
 
-//    a. Check if ticket is available - 10 points
-//    a1. User Provide TicketId(Numeric) and return response (boolean) whether the ticket is
-//    available or not (the response will determine upon your predefined static data)
-//    (10points).
     @RequestMapping(value="/isTicketAvailable/{ticketId}", method = GET)
     @ResponseBody
     public Boolean isTicketAvailable(@PathVariable("ticketId") int ticketId){
-        LOG.info("isTicketAvailable");
-        return flightAppService.isTicketAvailable(ticketId);
+        boolean result = flightAppService.isTicketAvailable(ticketId);
+        LOG.info(String.format("isTicketAvailable: %d - %b", ticketId, result));
+        return result;
     }
 
-//    b. Provide baggage check in service - 10 points
-//    b1. User provide Destination Id(Numeric) and baggage Id(String)
-//    b2. Return answer if the checkin succeeded (boolean)
     @RequestMapping(
             value = "/checkinBaggage", method = GET)
     @ResponseBody
-    public String checkinBaggage(@RequestParam(value="destinationId", required=true) Integer destinationId,
+    public Boolean checkinBaggage(@RequestParam(value="destinationId", required=true) Integer destinationId,
                                  @RequestParam(value="baggageId", required=true) Integer baggageId) {
-        return String.format( "%b", flightAppService.checkinBaggage( destinationId, baggageId));
+        boolean result = flightAppService.checkinBaggage( destinationId, baggageId);
+        LOG.info(String.format("checkinBaggage: %d %d - %b", destinationId, baggageId, result));
+
+        return result;
     }
 
-
-//    c. Provide Coupon support. 10 points
-//    c1. User provide couponId(Numeric) and Price(Double)
-//    c2. Return response if the coupon is valid(boolean) in case it is the user will get the final
-//    price after discount (10%,50%,60% - picked up randomly)
-//    * create random list of valid couponId's
-//     */
-//
     @RequestMapping(
             value = "/checkCoupon", method = GET)
     @ResponseBody
-    public String checkCoupon(@RequestParam(value="couponId", required=true) Integer couponId,
+    public Float checkCoupon(@RequestParam(value="couponId", required=true) Integer couponId,
                               @RequestParam(value="price", required=true) Integer price) {
-        String m = String.format( "checkCoupon( %s, %s )", couponId, price );
-        LOG.info(m);
-        return m;
+        Float finalPrice = flightAppService.checkCoupon(couponId, price);
+        LOG.info(String.format( "checkCoupon %d, %d - %f", couponId, price, finalPrice ));
+        return finalPrice;
     }
 }
